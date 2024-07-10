@@ -5,6 +5,7 @@ export default class NewsContainer extends Component {
   render() {
     let {title, description,imageurl,url} = this.props
     return (
+  
       <div className="col">
         <a href={url} target="_blank" rel="noreferrer" style={{color:"black",textDecoration:"none"}}>
         <div className="card" style={{ maxWidth: "18 rem" }}>
@@ -18,6 +19,8 @@ export default class NewsContainer extends Component {
         </div>
         </a>
       </div>
+
+ 
     );
   }
 }
