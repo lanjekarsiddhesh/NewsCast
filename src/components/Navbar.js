@@ -10,7 +10,7 @@ export default class Navbar extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+      <nav className="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
         <div className="container-fluid">
           <NavLink className="navbar-brand m-0 p-o" to="/">
             <img
