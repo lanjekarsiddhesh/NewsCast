@@ -5,7 +5,7 @@ export default class NewsContainer extends Component {
     let { title, description, imageurl, url, publishedAt, author, sourceName } =
       this.props;
     return (
-      <div className="col">
+      <div className="col" >
         <a
           href={url}
           target="_blank"
@@ -13,7 +13,7 @@ export default class NewsContainer extends Component {
           style={{ color: "black", textDecoration: "none" }}
         >
           <div className="card" style={{ maxWidth: "18 rem" }}>
-            <span class="position-absolute top-0 start-50 mt-2 p-2 translate-middle badge rounded-pill bg-dark">
+            <span className="position-absolute top-0 start-50 mt-2 p-2 translate-middle badge rounded-pill bg-dark">
               @{sourceName}{" "}
             </span>
 
@@ -34,8 +34,8 @@ export default class NewsContainer extends Component {
                   : description + " Read more....."}
               </p>
             </div>
-            <div class="card-footer">
-              <small class="text-muted">
+            <div className="card-footer">
+              <small className="text-muted">
                 By {!author ? "Unknown" : author} on{" "}
                 {new Date(publishedAt).toGMTString()}
               </small>

@@ -3,6 +3,7 @@ import NewsContainer from "../components/NewsContainer";
 import defaultImage from "../Images/newscast1.png";
 import Lodder from "./Lodder";
 import PropTypes from "prop-types";
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default class NewsItem extends Component {
   static defaultProps = {
@@ -17,62 +18,66 @@ export default class NewsItem extends Component {
     category: PropTypes.string,
   };
 
-  articles = [""];
+  // articles = [""];
   constructor(props) {
     super(props);
     this.state = {
-      articles: this.articles,
+      articles: [],
       page: 1,
       lodder: false,
+      totalResults: 0,
     };
     document.title = `NewsCast - ${this.props.category}`
   }
 
   async NewsAPI() {
+    this.props.setProgress(10)
     let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c26eeb85c28c49839a157f9cb7b28e5b&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    this.props.setProgress(25)
     this.setState({ lodder: true });
     let data = await fetch(url);
+    this.props.setProgress(25)
     let parseData = await data.json();
+    this.props.setProgress(70)
     this.setState({
       articles: parseData.articles,
       lodder: false,
       totalResults: parseData.totalResults,
     });
+    this.props.setProgress(100)
   }
 
   componentDidMount() {
     this.NewsAPI();
   }
 
-  NextPage = () => {
-    if (
-      !(
-        this.state.page + 1 >
-        Math.ceil(this.state.totalResults / this.props.pageSize)
-      )
-    ) {
-      this.setState({
-        page: this.state.page + 1
-      })
-      this.NewsAPI()
-    }
-  };
-
-  PreviousPage = () => {
+  fetchMoreData = async () => {
+  const totalPages = Math.ceil(Number(this.state.totalResults) / this.props.pageSize);
+  if (this.state.page < totalPages){
+    this.setState({page: this.state.page + 1});
+   let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c26eeb85c28c49839a157f9cb7b28e5b&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+   let data = await fetch(url);
+    let parseData = await data.json();
     this.setState({
-      page: this.state.page - 1
+      articles: this.state.articles.concat(parseData.articles)
     });
-    this.NewsAPI()
+  }
   };
 
   render() {
     return (
       <>
-        <div className="container">
-          <div className="row row-cols-1 row-cols-md-2 g-4 mt-3">
-            {this.state.lodder && <Lodder />}
-            {!this.state.lodder &&
-              this.state.articles.map((element) => {
+        
+        <InfiniteScroll
+          dataLength={this.state.articles.length}
+          next={this.fetchMoreData}
+          hasMore={this.state.page < Math.ceil(Number(this.state.totalResults) / this.props.pageSize)}
+          loader={<Lodder />}
+        >
+          <div className="container">
+            {this.state.lodder && <Lodder/>}
+          <div className="row row-cols-1 row-cols-md-3 g-4 mt-3">
+            {this.state.articles.map((element) => {
                 return (
                   <NewsContainer
                     key={element.url}
@@ -93,37 +98,10 @@ export default class NewsItem extends Component {
                 );
               })}
           </div>
-        </div>
-
-        {!this.state.lodder && (
-          <div className="container d-flex justify-content-between mt-2">
-            <button
-              disabled={this.state.page <= 1}
-              type="button"
-              className="btn btn-dark"
-              onClick={this.PreviousPage}
-            >
-              {" "}
-              &larr; Prev
-            </button>
-
-            <h1 className="badge text-bg-dark mt-2 text-center">
-              {this.state.page}
-            </h1>
-
-            <button
-              disabled={
-                this.state.page + 1 >
-                Math.ceil(this.state.totalResults / this.props.pageSize)
-              }
-              type="button"
-              className="btn btn-dark"
-              onClick={this.NextPage}
-            >
-              Next &rarr;{" "}
-            </button>
           </div>
-        )}
+          </InfiniteScroll>
+
+        
       </>
     );
   }
