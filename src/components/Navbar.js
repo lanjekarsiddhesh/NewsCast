@@ -1,12 +1,9 @@
 import React, { Component } from "react";
-import img from "../Images/newscast1.png";
-import PropTypes from "prop-types";
+import img from "../Images/NewsCast.png";
 import { NavLink } from "react-router-dom";
 
 export default class Navbar extends Component {
-  static propTypes = {
-    prop: PropTypes,
-  };
+
 
   render() {
     return (
@@ -16,12 +13,12 @@ export default class Navbar extends Component {
             <img
               src={img}
               alt="Logo"
-              width="70"
-              height="30"
+              width="170"
+              height="50"
               className="d-inline-block align-text-top m-0 p-0"
             />
           </NavLink>
-          <strong className="navbar-brand">Newscast</strong>
+          {/* <strong className="navbar-brand">Newscast</strong> */}
           <button
             className="navbar-toggler"
             type="button"

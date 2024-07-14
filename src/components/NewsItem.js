@@ -32,7 +32,7 @@ export default class NewsItem extends Component {
 
   async NewsAPI() {
     this.props.setProgress(10)
-    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c26eeb85c28c49839a157f9cb7b28e5b&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.props.setProgress(25)
     this.setState({ lodder: true });
     let data = await fetch(url);
@@ -55,7 +55,7 @@ export default class NewsItem extends Component {
   const totalPages = Math.ceil(Number(this.state.totalResults) / this.props.pageSize);
   if (this.state.page < totalPages){
     this.setState({page: this.state.page + 1});
-   let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=c26eeb85c28c49839a157f9cb7b28e5b&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+   let url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
    let data = await fetch(url);
     let parseData = await data.json();
     this.setState({
@@ -77,10 +77,11 @@ export default class NewsItem extends Component {
           <div className="container">
             {this.state.lodder && <Lodder/>}
           <div className="row row-cols-1 row-cols-md-3 g-4 mt-3">
-            {this.state.articles.map((element) => {
+            {this.state.articles.map((element,index) => {
+              const key = `${element.title}_${index}`;
                 return (
                   <NewsContainer
-                    key={element.url}
+                    key={key}
                     url={element.url}
                     title={element.title ? element.title.slice(0, 112) : ""}
                     description={
