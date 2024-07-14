@@ -1,11 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import img from "../Images/NewsCast.png";
 import { NavLink } from "react-router-dom";
 
-export default class Navbar extends Component {
-
-
-  render() {
+export default function Navbar() {
     return (
       <nav className="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
         <div className="container-fluid">
@@ -77,5 +74,5 @@ export default class Navbar extends Component {
         </div>
       </nav>
     );
-  }
+  
 }

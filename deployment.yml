@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # Unique key of the Deployment instance
+  name: NewsCast-react
+spec:
+  # 3 Pods should exist at all times.
+  replicas: 3
+  selector:
+    matchLabels:
+      app: NewsCast
+  template:
+    metadata:
+      labels:
+        # Apply this label to pods and default
+        # the Deployment label selector to this value
+        app: NewsCast
+    spec:
+      containers:
+      - name: NewsCast
+        # Run this image
+        image: lanjekarsiddhesh/NewsCast:latest

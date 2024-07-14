@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React from 'react'
 import defaultImage from "../Images/newscast2.png";
 import '../App.css';
 
-export default class About extends Component {
-  render() {
+const About = () => {
+  document.title = 'NewsCast - about'
     return (
         <div className="about-container">
       <div className="about-header">
@@ -36,4 +36,7 @@ export default class About extends Component {
     </div>
     )
   }
-}
+
+
+
+export default About
